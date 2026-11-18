@@ -137,10 +137,12 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
       const fadeStart = lines.lifetime * 0.55
       const fadeLength = lines.lifetime - fadeStart
       const RUN = 24
+      const OPACITY = 0.42
 
       ctx.save()
-      ctx.strokeStyle = '#fffdf7'
-      ctx.lineWidth = 1.2 * dpr
+      // Pale blue rather than cream, and hairline thin, so the lines read as texture.
+      ctx.strokeStyle = '#bccdea'
+      ctx.lineWidth = 0.8 * dpr
       ctx.lineCap = 'round'
       ctx.lineJoin = 'round'
       for (const streak of lines.streaks) {
@@ -149,7 +151,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
         for (let start = 0; start < n - 1; start += RUN) {
           const end = Math.min(n - 1, start + RUN)
           const age = p[((start + end) >> 1) * 3 + 2]
-          const alpha = age < fadeStart ? 0.82 : 0.82 * (1 - (age - fadeStart) / fadeLength)
+          const alpha = age < fadeStart ? OPACITY : OPACITY * (1 - (age - fadeStart) / fadeLength)
           if (alpha < 0.02) continue
           ctx.globalAlpha = alpha
           ctx.beginPath()
