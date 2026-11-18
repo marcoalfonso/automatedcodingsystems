@@ -1,4 +1,4 @@
-import { aemPipeline, auditFindings } from '../content'
+import { aemPipeline, auditFindings } from "../content";
 
 export default function Showcase() {
   return (
@@ -7,24 +7,25 @@ export default function Showcase() {
         <header className="section-head">
           <p className="eyebrow">Showcase</p>
           <h2>What an implementation looks like.</h2>
-          <p>Two reference engagements, one from each practice.</p>
         </header>
 
         <article className="case">
           <div className="case-text">
-            <p className="case-tag">AI implementation · Adobe Experience Manager</p>
+            <p className="case-tag">
+              AI implementation · Adobe Experience Manager
+            </p>
             <h3>Content production in AEM, run as an automated workflow.</h3>
             <p>
               Producing a campaign in AEM is manual work: copy pasted into
               components, fragments built by hand, assets tagged one at a time,
               and the whole thing repeated for every locale. We replace that
-              production line with an agent that authors directly in AEM
-              through a Model Context Protocol server.
+              production line with an agent that authors directly in AEM through
+              a Model Context Protocol server.
             </p>
             <ul className="case-points">
               <li>
-                An AEM MCP server exposing pages, content fragments, the DAM
-                and workflow as tools.
+                An AEM MCP server exposing pages, content fragments, the DAM and
+                workflow as tools.
               </li>
               <li>
                 Retrieval over brand, product and legal sources, so drafts start
@@ -57,7 +58,9 @@ export default function Showcase() {
         <article className="case case-security">
           <div className="case-text">
             <p className="case-tag">AI cyber security · Vulnerability audit</p>
-            <h3>A security audit of an AI system, before attackers run their own.</h3>
+            <h3>
+              A security audit of an AI system, before attackers run their own.
+            </h3>
             <p>
               We review the whole system: models, prompts, retrieval, tools,
               data flows and the infrastructure around them. Then we try to
@@ -102,5 +105,5 @@ export default function Showcase() {
         </article>
       </div>
     </section>
-  )
+  );
 }

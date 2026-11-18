@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import Logo from './Logo'
-import { navLinks } from '../content'
+import { useState } from "react";
+import Logo from "./Logo";
+import { navLinks } from "../content";
 
 export default function Header() {
-  const [open, setOpen] = useState(false)
-  const close = () => setOpen(false)
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
 
   return (
     <header className="header">
@@ -25,20 +25,24 @@ export default function Header() {
           aria-controls="site-nav"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? 'Close' : 'Menu'}
+          {open ? "Close" : "Menu"}
         </button>
 
-        <nav id="site-nav" className={open ? 'nav is-open' : 'nav'} aria-label="Main">
+        <nav
+          id="site-nav"
+          className={open ? "nav is-open" : "nav"}
+          aria-label="Main"
+        >
           {navLinks.map((link) => (
             <a key={link.href} href={link.href} onClick={close}>
               {link.label}
             </a>
           ))}
           <a className="btn btn-light" href="#contact" onClick={close}>
-            Talk to us
+            Contact us
           </a>
         </nav>
       </div>
     </header>
-  )
+  );
 }
