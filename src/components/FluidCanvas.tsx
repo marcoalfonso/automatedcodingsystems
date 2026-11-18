@@ -22,7 +22,12 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
     const ctx = canvas?.getContext('2d')
     const buffer = document.createElement('canvas')
     const bufferCtx = buffer.getContext('2d')
-    if (!canvas || !host || !ctx || !bufferCtx) return
+    // Streaks are drawn into a half-resolution layer, then blurred and blended onto
+    // the main canvas in one pass, so they read as soft texture rather than ink.
+    const layer = document.createElement('canvas')
+    const layerCtx = layer.getContext('2d')
+    if (!canvas || !host || !ctx || !bufferCtx || !layerCtx) return
+    const canFilter = 'filter' in ctx
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     let sim: FluidSim | null = null
@@ -31,6 +36,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
     let width = 0
     let height = 0
     let dpr = 1
+    let narrow = false
     let raf = 0
     let last = 0
     let backlog = 0
@@ -46,7 +52,9 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
       canvas.width = Math.round(width * dpr)
       canvas.height = Math.round(height * dpr)
 
-      const narrow = width < 820
+      narrow = width < 820
+      layer.width = Math.round(canvas.width / 2)
+      layer.height = Math.round(canvas.height / 2)
       const cols = Math.max(90, Math.min(220, Math.round(width / 6.5)))
       const rows = Math.max(40, Math.round((cols * height) / width))
       const home = ballHome(narrow)
@@ -131,20 +139,24 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
     // Each streak is drawn as quadratic curves through its points, in short runs so
     // older parts of the line can fade out.
     function drawStreaks() {
-      if (!sim || !lines || !ctx || !canvas) return
-      const sx = canvas.width / sim.cols
-      const sy = canvas.height / sim.rows
+      if (!sim || !lines || !ctx || !canvas || !layerCtx) return
+      const W = layer.width
+      const H = layer.height
+      const sx = W / sim.cols
+      const sy = H / sim.rows
       const fadeStart = lines.lifetime * 0.55
       const fadeLength = lines.lifetime - fadeStart
       const RUN = 24
-      const OPACITY = 0.42
+      const OPACITY = 0.3
 
-      ctx.save()
-      // Pale blue rather than cream, and hairline thin, so the lines read as texture.
-      ctx.strokeStyle = '#bccdea'
-      ctx.lineWidth = 0.8 * dpr
-      ctx.lineCap = 'round'
-      ctx.lineJoin = 'round'
+      const g = layerCtx
+      g.globalCompositeOperation = 'source-over'
+      g.globalAlpha = 1
+      g.clearRect(0, 0, W, H)
+      g.strokeStyle = '#9fb6dd'
+      g.lineWidth = 1.1
+      g.lineCap = 'round'
+      g.lineJoin = 'round'
       for (const streak of lines.streaks) {
         const p = streak.points
         const n = streak.count
@@ -153,20 +165,36 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
           const age = p[((start + end) >> 1) * 3 + 2]
           const alpha = age < fadeStart ? OPACITY : OPACITY * (1 - (age - fadeStart) / fadeLength)
           if (alpha < 0.02) continue
-          ctx.globalAlpha = alpha
-          ctx.beginPath()
-          ctx.moveTo((p[start * 3] - 0.5) * sx, (p[start * 3 + 1] - 0.5) * sy)
+          g.globalAlpha = alpha
+          g.beginPath()
+          g.moveTo((p[start * 3] - 0.5) * sx, (p[start * 3 + 1] - 0.5) * sy)
           for (let i = start + 1; i < end; i++) {
             const x = (p[i * 3] - 0.5) * sx
             const y = (p[i * 3 + 1] - 0.5) * sy
             const nx = (p[i * 3 + 3] - 0.5) * sx
             const ny = (p[i * 3 + 4] - 0.5) * sy
-            ctx.quadraticCurveTo(x, y, (x + nx) / 2, (y + ny) / 2)
+            g.quadraticCurveTo(x, y, (x + nx) / 2, (y + ny) / 2)
           }
-          ctx.lineTo((p[end * 3] - 0.5) * sx, (p[end * 3 + 1] - 0.5) * sy)
-          ctx.stroke()
+          g.lineTo((p[end * 3] - 0.5) * sx, (p[end * 3 + 1] - 0.5) * sy)
+          g.stroke()
         }
       }
+
+      // Fade the lines out behind the copy: left side on wide screens, top on narrow.
+      g.globalAlpha = 1
+      g.globalCompositeOperation = 'destination-in'
+      const mask = narrow ? g.createLinearGradient(0, 0, 0, H * 0.6) : g.createLinearGradient(0, 0, W * 0.6, 0)
+      mask.addColorStop(0, 'rgba(0,0,0,0.25)')
+      mask.addColorStop(1, 'rgba(0,0,0,1)')
+      g.fillStyle = mask
+      g.fillRect(0, 0, W, H)
+
+      ctx.save()
+      ctx.globalCompositeOperation = 'screen'
+      ctx.imageSmoothingEnabled = true
+      ctx.imageSmoothingQuality = 'high'
+      if (canFilter) ctx.filter = `blur(${(0.9 * dpr).toFixed(2)}px)`
+      ctx.drawImage(layer, 0, 0, canvas.width, canvas.height)
       ctx.restore()
     }
 
