@@ -6,7 +6,7 @@ export default function Capabilities() {
       <div className="container">
         <header className="section-head">
           <p className="eyebrow">Capabilities</p>
-          <h2>The building blocks behind every engagement.</h2>
+          <h2>The building blocks.</h2>
         </header>
 
         <ol className="cap-list">
