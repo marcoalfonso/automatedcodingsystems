@@ -5,7 +5,7 @@ export default function Clients() {
     <section className="clients" id="clients" aria-labelledby="clients-title">
       <div className="container">
         <p className="clients-title" id="clients-title">
-          Engineering experience with teams at
+          Our engineering background includes work for
         </p>
       </div>
       <div className="marquee">
