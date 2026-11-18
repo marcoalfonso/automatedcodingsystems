@@ -1,5 +1,6 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { FluidSim, type FluidStats } from '../sim/fluid'
+import { Streaklines } from '../sim/streaks'
 
 interface Props {
   // Element that receives pointer input; the canvas fills it.
@@ -9,8 +10,6 @@ interface Props {
 
 const STEP_MS = 1000 / 60
 const BACKGROUND = [14, 29, 58]
-const DYE_LOW = [95, 134, 201]
-const DYE_HIGH = [255, 253, 247]
 const SPIN_POSITIVE = [70, 112, 186]
 const SPIN_NEGATIVE = [176, 92, 72]
 
@@ -27,6 +26,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     let sim: FluidSim | null = null
+    let lines: Streaklines | null = null
     let image: ImageData | null = null
     let width = 0
     let height = 0
@@ -56,13 +56,18 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
         ballX: home.x,
         ballY: home.y,
         ballRadius: narrow ? cols * 0.065 : rows * 0.065,
+        trackDye: false,
       })
+      lines = new Streaklines(sim)
       buffer.width = cols
       buffer.height = rows
       image = bufferCtx.createImageData(cols, rows)
 
       const warmup = reduceMotion ? 240 : 40
-      for (let n = 0; n < warmup; n++) sim.step()
+      for (let n = 0; n < warmup; n++) {
+        sim.step()
+        lines.step()
+      }
       statsRef.current = sim.stats()
       draw()
     }
@@ -90,7 +95,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
 
     function draw() {
       if (!sim || !image || !ctx || !bufferCtx || !canvas) return
-      const { cols, rows, stride: S, dye, curl } = sim
+      const { cols, rows, stride: S, curl } = sim
       const data = image.data
       let p = 0
       for (let j = 1; j <= rows; j++) {
@@ -100,19 +105,13 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
           let g = BACKGROUND[1]
           let b = BACKGROUND[2]
 
-          // Faint two-tone tint for the direction of spin.
+          // Soft two-tone glow for the direction of spin, behind the sharp streaklines.
           const w = Math.max(-1, Math.min(1, curl[k] * 5))
           const spin = w > 0 ? SPIN_POSITIVE : SPIN_NEGATIVE
-          const sa = Math.abs(w) * 0.35
+          const sa = Math.abs(w) * 0.45
           r += (spin[0] - r) * sa
           g += (spin[1] - g) * sa
           b += (spin[2] - b) * sa
-
-          // Dye goes from blue at low concentration to cream at full.
-          const d = Math.min(1, dye[k])
-          r += (DYE_LOW[0] + (DYE_HIGH[0] - DYE_LOW[0]) * d - r) * d
-          g += (DYE_LOW[1] + (DYE_HIGH[1] - DYE_LOW[1]) * d - g) * d
-          b += (DYE_LOW[2] + (DYE_HIGH[2] - DYE_LOW[2]) * d - b) * d
 
           data[p] = r
           data[p + 1] = g
@@ -125,7 +124,48 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
       ctx.imageSmoothingEnabled = true
       ctx.imageSmoothingQuality = 'high'
       ctx.drawImage(buffer, 0, 0, canvas.width, canvas.height)
+      drawStreaks()
       drawBall()
+    }
+
+    // Each streak is drawn as quadratic curves through its points, in short runs so
+    // older parts of the line can fade out.
+    function drawStreaks() {
+      if (!sim || !lines || !ctx || !canvas) return
+      const sx = canvas.width / sim.cols
+      const sy = canvas.height / sim.rows
+      const fadeStart = lines.lifetime * 0.55
+      const fadeLength = lines.lifetime - fadeStart
+      const RUN = 24
+
+      ctx.save()
+      ctx.strokeStyle = '#fffdf7'
+      ctx.lineWidth = 1.2 * dpr
+      ctx.lineCap = 'round'
+      ctx.lineJoin = 'round'
+      for (const streak of lines.streaks) {
+        const p = streak.points
+        const n = streak.count
+        for (let start = 0; start < n - 1; start += RUN) {
+          const end = Math.min(n - 1, start + RUN)
+          const age = p[((start + end) >> 1) * 3 + 2]
+          const alpha = age < fadeStart ? 0.82 : 0.82 * (1 - (age - fadeStart) / fadeLength)
+          if (alpha < 0.02) continue
+          ctx.globalAlpha = alpha
+          ctx.beginPath()
+          ctx.moveTo((p[start * 3] - 0.5) * sx, (p[start * 3 + 1] - 0.5) * sy)
+          for (let i = start + 1; i < end; i++) {
+            const x = (p[i * 3] - 0.5) * sx
+            const y = (p[i * 3 + 1] - 0.5) * sy
+            const nx = (p[i * 3 + 3] - 0.5) * sx
+            const ny = (p[i * 3 + 4] - 0.5) * sy
+            ctx.quadraticCurveTo(x, y, (x + nx) / 2, (y + ny) / 2)
+          }
+          ctx.lineTo((p[end * 3] - 0.5) * sx, (p[end * 3 + 1] - 0.5) * sy)
+          ctx.stroke()
+        }
+      }
+      ctx.restore()
     }
 
     function drawBall() {
@@ -177,6 +217,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
       let steps = 0
       while (backlog >= STEP_MS && steps < 2) {
         sim.step()
+        lines?.step()
         backlog -= STEP_MS
         steps++
       }

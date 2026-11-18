@@ -36,6 +36,7 @@ export interface FluidOptions {
   ballX: number // fraction of width
   ballY: number // fraction of height
   ballRadius: number // in cells
+  trackDye?: boolean // advect the dye field (default true)
 }
 
 const PRESSURE_ITERATIONS = 24
@@ -53,6 +54,7 @@ export class FluidSim {
   readonly viscosity: number
   readonly ball: Ball
   frame = 0
+  readonly trackDye: boolean
 
   readonly u: Float64Array
   readonly v: Float64Array
@@ -101,6 +103,7 @@ export class FluidSim {
     this.rim = new Int32Array(cols * rows)
 
     this.inflow = options.inflow
+    this.trackDye = options.trackDye ?? true
     const r = options.ballRadius
     // Re = U D / nu, so pick nu to hit the requested Reynolds number.
     this.viscosity = (options.inflow * 2 * r) / options.reynolds
@@ -193,8 +196,26 @@ export class FluidSim {
     this.project()
     this.enforceBall()
 
-    this.advectDye()
-    this.injectDye()
+    if (this.trackDye) {
+      this.advectDye()
+      this.injectDye()
+    }
+  }
+
+  // Bilinear velocity at a point in grid coordinates (cell centres sit on integers).
+  velocityAt(x: number, y: number, out: { x: number; y: number }) {
+    const { cols: W, rows: H, stride: S, u, v } = this
+    x = clamp(x, 0.5, W + 0.5)
+    y = clamp(y, 0.5, H + 0.5)
+    const i0 = x | 0
+    const j0 = y | 0
+    const s1 = x - i0
+    const t1 = y - j0
+    const s0 = 1 - s1
+    const t0 = 1 - t1
+    const a = i0 + j0 * S
+    out.x = s0 * (t0 * u[a] + t1 * u[a + S]) + s1 * (t0 * u[a + 1] + t1 * u[a + 1 + S])
+    out.y = s0 * (t0 * v[a] + t1 * v[a + S]) + s1 * (t0 * v[a + 1] + t1 * v[a + 1 + S])
   }
 
   stats(): FluidStats {
