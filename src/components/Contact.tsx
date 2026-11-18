@@ -48,10 +48,10 @@ export default function Contact() {
       <div className="container contact-grid">
         <header>
           <p className="eyebrow">Contact</p>
-          <h2>Get in touch</h2>
+          <h2>Tell us what you need.</h2>
           <p>
-            Tell us a bit about what you're working on. We usually reply within
-            two business days.
+            A short description is enough. We reply within two business days
+            with questions or a time to talk.
           </p>
           <p className="contact-direct">
             Prefer email? <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
@@ -99,12 +99,12 @@ export default function Contact() {
               {status === 'sending' ? 'Sending…' : 'Send message'}
             </button>
             <p className="form-status" role="status">
-              {status === 'sent' && "Thanks, we've got your message."}
+              {status === 'sent' && 'Message sent. We will be in touch soon.'}
               {status === 'mail' &&
-                'Your email app should have opened with the message filled in.'}
+                'Your mail app should have opened with the message ready to send.'}
               {status === 'error' && (
                 <>
-                  Something went wrong sending that. Try again, or email{' '}
+                  That did not send. Try again, or email{' '}
                   <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
                 </>
               )}

@@ -83,7 +83,9 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
       const bottom = textBottom - box.top
       const floorY = floor - box.top
       if (narrow) return { x: 0.3, y: (bottom + floorY) / 2 / box.height }
-      return { x: (right + (box.width - right) * 0.18) / box.width, y: (floorY * 0.48) / box.height }
+      // Well clear of the text: at least 70% across, or 45% of the way into the open water.
+      const x = Math.max(0.7, (right + (box.width - right) * 0.45) / box.width)
+      return { x: Math.min(x, 0.82), y: (floorY * 0.48) / box.height }
     }
 
     function draw() {

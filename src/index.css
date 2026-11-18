@@ -491,41 +491,99 @@ a {
 }
 
 @media (max-width: 820px) {
+  /* Everything (text, open water for the ball, equations) fits one screen. */
   .hero {
-    min-height: 0;
+    min-height: calc(100svh - var(--header-h));
   }
 
   .hero-scrim {
     background: linear-gradient(
       180deg,
       rgb(14 29 58 / 0.9) 0%,
-      rgb(14 29 58 / 0.78) 42%,
-      rgb(14 29 58 / 0) 62%
+      rgb(14 29 58 / 0.78) 38%,
+      rgb(14 29 58 / 0) 52%
     );
   }
 
   .hero-content {
     justify-content: flex-start;
-    padding-block: 48px 300px;
+    padding-block: 24px 0;
+  }
+
+  /* Open water for the ball between the buttons and the equations. */
+  .hero-content::after {
+    content: '';
+    flex: 1;
+    min-height: 140px;
+  }
+
+  .hero .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.1rem, 9.5vw, 2.6rem);
+  }
+
+  .lede {
+    margin-top: 14px;
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .hero-actions {
+    margin-top: 18px;
+    gap: 10px;
+  }
+
+  .hero-actions .btn {
+    min-height: 42px;
+    padding: 0 18px;
+  }
+
+  .hero-math-inner {
+    gap: 10px;
+    padding-block: 12px 14px;
   }
 
   .equations {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 16px;
+  }
+
+  .equations li:first-child,
+  .equations li:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .equations li {
+    gap: 3px;
   }
 
   .eq {
     overflow-x: auto;
   }
 
+  .eq-label,
+  .readout dt {
+    font-size: 0.6rem;
+  }
+
   .hero math {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
   }
 
   .readout {
-    flex-wrap: wrap;
-    gap: 14px 22px;
+    gap: 16px;
+  }
+
+  .readout dd {
+    font-size: 0.82rem;
+  }
+
+  .hint {
+    display: none;
   }
 }
 

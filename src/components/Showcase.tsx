@@ -6,42 +6,38 @@ export default function Showcase() {
       <div className="container">
         <header className="section-head">
           <p className="eyebrow">Showcase</p>
-          <h2>Example projects</h2>
-          <p>
-            One from each side of the business. Both are composites of the kind
-            of work we do rather than write-ups of a particular client.
-          </p>
+          <h2>What an implementation looks like.</h2>
+          <p>Two reference engagements, one from each practice.</p>
         </header>
 
         <article className="case">
           <div className="case-text">
             <p className="case-tag">AI implementation · Adobe Experience Manager</p>
-            <h3>Automating content production in AEM</h3>
+            <h3>Content production in AEM, run as an automated workflow.</h3>
             <p>
-              Getting a campaign into Adobe Experience Manager usually takes a
-              lot of manual work. Someone pastes copy into components, builds
-              content fragments, tags assets, and then does it all again for
-              each locale. In this project an agent does that production work
-              through an MCP server connected to AEM, and editors review the
-              result before anything is published.
+              Producing a campaign in AEM is manual work: copy pasted into
+              components, fragments built by hand, assets tagged one at a time,
+              and the whole thing repeated for every locale. We replace that
+              production line with an agent that authors directly in AEM
+              through a Model Context Protocol server.
             </p>
             <ul className="case-points">
               <li>
-                An AEM MCP server with tools for pages, content fragments, DAM
-                assets and workflows.
+                An AEM MCP server exposing pages, content fragments, the DAM
+                and workflow as tools.
               </li>
               <li>
-                Drafts are written from brand guidelines, product data and
-                approved legal copy.
+                Retrieval over brand, product and legal sources, so drafts start
+                on-brand.
               </li>
               <li>
-                Accessibility, brand and legal checks on every page, then one
-                editor approval.
+                Automated checks on every page, and a single editor approval
+                before publish.
               </li>
             </ul>
             <p className="case-outcome">
-              Nobody builds pages by hand any more. The content team's time
-              goes into reviewing and editing.
+              Content producers stop assembling pages. The pipeline does the
+              production, and editors review the result.
             </p>
           </div>
 
@@ -61,24 +57,24 @@ export default function Showcase() {
         <article className="case case-security">
           <div className="case-text">
             <p className="case-tag">AI cyber security · Vulnerability audit</p>
-            <h3>Security audit of an AI assistant</h3>
+            <h3>A security audit of an AI system, before attackers run their own.</h3>
             <p>
-              We review the whole system, including the models, prompts,
-              retrieval, tools, data flows and the infrastructure around them,
-              and then we attack it. Each finding in the report has a severity
-              rating, steps to reproduce it and a recommended fix.
+              We review the whole system: models, prompts, retrieval, tools,
+              data flows and the infrastructure around them. Then we try to
+              break it. Every finding comes with a severity, a reproduction and
+              a fix your engineers can apply.
             </p>
             <ul className="case-points">
-              <li>Threat modelling and an architecture review with your engineers.</li>
+              <li>Threat model and architecture review with your engineers.</li>
               <li>
-                Hands-on testing for prompt injection, data exfiltration and
-                privilege escalation through tools.
+                Hands-on testing: injection, exfiltration, privilege escalation
+                through tools.
               </li>
-              <li>A report ranked by severity, and a retest once the fixes are in.</li>
+              <li>A prioritised report, then a retest once fixes are in.</li>
             </ul>
             <p className="case-outcome">
-              At the end you know what was exposed and have evidence that each
-              fix works.
+              You get a clear list of what is exposed, ranked by risk, and proof
+              that each fix worked.
             </p>
           </div>
 

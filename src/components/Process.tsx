@@ -6,7 +6,7 @@ export default function Process() {
       <div className="container">
         <header className="section-head">
           <p className="eyebrow">How we work</p>
-          <h2>How a project runs</h2>
+          <h2>Start small. Prove it. Then scale.</h2>
         </header>
         <ol className="steps">
           {processSteps.map((s, i) => (

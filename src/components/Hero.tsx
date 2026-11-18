@@ -68,21 +68,23 @@ export default function Hero() {
       <div className="hero-scrim" aria-hidden="true" />
 
       <div className="container hero-content">
-        <p className="eyebrow">Engineering consultancy · Sydney</p>
+        <p className="eyebrow">AI implementation · AI cyber security</p>
         <h1 data-fluid-text>
-          We build AI into production software, <em>then try to break it.</em>
+          AI that ships.
+          <br />
+          <em>Security that holds.</em>
         </h1>
         <p className="lede" data-fluid-text>
-          Most of our work is retrieval, agents and MCP integrations for teams
-          that already have a product in production. We also audit AI systems
-          for security problems, ideally before they launch.
+          Automated Coding Systems is a consultancy that puts AI to work inside
+          real production systems, and tests it the way an attacker would
+          before it goes live.
         </p>
         <div className="hero-actions" data-fluid-text>
           <a className="btn btn-light" href="#contact">
             Talk to us
           </a>
           <a className="btn btn-outline-light" href="#showcase">
-            See example projects
+            See the work
           </a>
         </div>
       </div>
