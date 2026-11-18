@@ -36,32 +36,32 @@ export const servicePillars: ServicePillar[] = [
     tag: 'Build',
     title: 'AI implementation',
     summary:
-      'We design, build and ship AI systems inside the stack you already run, and leave your team able to own them.',
+      "AI features built into the software you already run. Your engineers work alongside us, so they can maintain it once we've gone.",
     items: [
       {
         name: 'Discovery and roadmap',
         detail:
-          'Find the workflows where AI pays for itself, and rule out the ones where it will not.',
+          "We look at where AI would actually save time or money in your workflows, and tell you where it wouldn't.",
       },
       {
         name: 'Knowledge systems and RAG',
         detail:
-          'Assistants and search grounded in your own documents, with sources cited on every answer.',
+          'Search and assistants that answer from your own documents and show where each answer came from.',
       },
       {
         name: 'Agents and workflow automation',
         detail:
-          'Multi-step work handed to agents, with approval gates where a person should decide.',
+          'Agents that handle multi-step tasks, with a person approving the steps that matter.',
       },
       {
         name: 'MCP and enterprise integration',
         detail:
-          'Model Context Protocol servers that connect models to your CMS, CRM and internal APIs.',
+          'MCP servers that let models work with your CMS, CRM and internal APIs.',
       },
       {
         name: 'AI-assisted engineering',
         detail:
-          'Coding agents set up for your repositories, review process and delivery pipeline.',
+          'Coding agents set up to work with your repositories, code review and CI.',
       },
     ],
   },
@@ -70,32 +70,32 @@ export const servicePillars: ServicePillar[] = [
     tag: 'Secure',
     title: 'AI cyber security',
     summary:
-      'We attack AI systems the way an adversary would, then help you close what we find before someone else finds it.',
+      'We review and test AI systems the way an attacker would, then work with your team on the fixes.',
     items: [
       {
         name: 'AI security audit',
         detail:
-          'A structured review of models, prompts, data flows and integrations, mapped to the OWASP Top 10 for LLM Applications.',
+          'A review of models, prompts, data flows and integrations, mapped to the OWASP Top 10 for LLM Applications.',
       },
       {
         name: 'LLM red teaming',
         detail:
-          'Prompt injection, jailbreaks and data exfiltration attempts against your live system.',
+          'We try prompt injection, jailbreaks and data exfiltration against your running system.',
       },
       {
         name: 'Threat modelling',
         detail:
-          'Trust boundaries and abuse cases for agents and tools, worked out before you build.',
+          'Working out trust boundaries and abuse cases for agents and tools before they get built.',
       },
       {
         name: 'Secure architecture review',
         detail:
-          'Least-privilege tool access, secrets handling, tenant isolation and audit logging.',
+          'Tool permissions, secrets handling, tenant isolation and audit logging.',
       },
       {
         name: 'Guardrails and monitoring',
         detail:
-          'Input and output controls with detection, so abuse shows up in an alert and not in the news.',
+          'Input and output filtering, plus alerts when someone starts probing the system.',
       },
     ],
   },
@@ -106,77 +106,77 @@ export const capabilities = [
     name: 'Retrieval-augmented generation',
     short: 'RAG',
     detail:
-      'Answers grounded in your content: ingestion, chunking, hybrid search, reranking and citations, tested against real questions from your users.',
+      'The model answers from your content rather than from memory. Most of the work is in ingestion, chunking and search quality, and in testing against questions your users actually ask.',
   },
   {
     name: 'Model Context Protocol',
     short: 'MCP',
     detail:
-      'A standard way to give models tools. We build MCP servers for the systems you run, so one integration serves every model and agent.',
+      'An open protocol for connecting models to tools and data. Write one MCP server for a system and any compatible model or agent can use it.',
   },
   {
     name: 'Agentic workflows',
     short: 'Agents',
     detail:
-      'Agents that plan, call tools and check their own work, scoped to a clear job and bounded by permissions and budgets.',
+      'A model that plans, calls tools and checks its results. We give each one a defined job, limited permissions and a budget.',
   },
   {
     name: 'Evaluation',
     short: 'Evals',
     detail:
-      'Test suites for AI behaviour. Every prompt or model change is measured against known cases before it reaches production.',
+      'Automated tests for model behaviour. Prompt and model changes are run against them before they go to production.',
   },
   {
     name: 'Guardrails',
     short: 'Guardrails',
     detail:
-      'Validation on what goes into a model and what comes out: injection filtering, PII handling, schema checks and policy rules.',
+      'Checks on what goes into the model and what comes out, such as injection filtering, PII handling and schema validation.',
   },
   {
     name: 'Human in the loop',
     short: 'HITL',
     detail:
-      'Approval steps placed where judgement matters, so automation handles the volume and people keep the decisions.',
+      'Approval steps wherever a person needs to make the call. The automation handles the routine work around them.',
   },
   {
     name: 'Observability',
     short: 'Tracing',
     detail:
-      'Traces for every model call and tool use, with cost, latency and quality tracked from day one.',
+      'Tracing every model and tool call, so you can see cost, latency and output quality over time.',
   },
   {
     name: 'Model selection and routing',
     short: 'Routing',
     detail:
-      'The right model for each task. Small and fast where that is enough, frontier models where it is not, with no lock-in.',
+      "Smaller, cheaper models where they're good enough and larger ones where they aren't, without tying you to one vendor.",
   },
 ]
 
 export const aemPipeline = [
   {
     step: 'Brief',
-    detail: 'A marketer submits a campaign brief in plain language.',
+    detail: 'A marketer writes a campaign brief.',
   },
   {
     step: 'Retrieve',
-    detail: 'RAG pulls brand guidelines, product data and past campaigns.',
+    detail: 'Brand guidelines, product data and past campaigns are pulled in with retrieval.',
   },
   {
     step: 'Generate',
-    detail: 'An agent drafts copy, variants and metadata per locale.',
+    detail: 'An agent drafts copy, variants and metadata for each locale.',
   },
   {
     step: 'Author',
     detail:
-      'Through an AEM MCP server it creates pages, content fragments and DAM assets.',
+      'It creates the pages, content fragments and DAM assets through an AEM MCP server.',
   },
   {
     step: 'Check',
-    detail: 'Automated accessibility, brand and legal checks run on every page.',
+    detail: 'Every page goes through accessibility, brand and legal checks.',
   },
   {
     step: 'Publish',
-    detail: 'An editor approves once. AEM workflow handles replication.',
+    detail: 'An editor signs off and the AEM workflow publishes it.',
   },
 ]
 
@@ -228,19 +228,19 @@ export const auditFindings: {
 
 export const processSteps = [
   {
-    title: 'Understand',
+    title: 'Scoping',
     detail:
-      'We map the workflow, the data and the risks with the people who do the work. You get a written plan with a fixed scope.',
+      'We sit with the people who do the work today, look at the data and the risks, and write up a plan with a fixed scope.',
   },
   {
-    title: 'Ship a thin slice',
+    title: 'First version',
     detail:
-      'A working version on real data within weeks, with evals in place so quality is measured and not assumed.',
+      'A working version on real data within a few weeks. Evals go in at the start so we can measure quality as we go.',
   },
   {
-    title: 'Harden and hand over',
+    title: 'Handover',
     detail:
-      'Security review, monitoring and documentation. Your team runs it, and we stay on call while they settle in.',
+      "Security review, monitoring and documentation, then your team takes it over. We're still around while they get comfortable with it.",
   },
 ]
 

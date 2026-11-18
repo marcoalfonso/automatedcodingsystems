@@ -6,11 +6,12 @@ export default function Services() {
       <div className="container">
         <header className="section-head">
           <p className="eyebrow">Services</p>
-          <h2>Two practices. One team that does both.</h2>
+          <h2>What we do</h2>
           <p>
-            Most AI projects are built by one firm and secured by another, if
-            they are secured at all. We do both, so security is part of the
-            design and not a report that arrives after launch.
+            There are two sides to the business, and they often end up on the
+            same project. Because the people building the system also know how
+            it gets attacked, security comes up at the design stage instead of
+            in a report the week before launch.
           </p>
         </header>
 
