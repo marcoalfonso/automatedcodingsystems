@@ -20,9 +20,10 @@
   --amber-tint: #f6e9cf;
   --green: #3f7042;
 
-  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
-  --font-body: 'Instrument Sans Variable', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-body: "Instrument Sans Variable", system-ui, -apple-system, sans-serif;
+  --font-mono:
+    "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
 
   --gutter: clamp(16px, 4vw, 40px);
   --header-h: 68px;
@@ -429,7 +430,7 @@ a {
 }
 
 .hero math {
-  font-family: 'STIX Two Math', 'Latin Modern Math', 'Cambria Math', math;
+  font-family: "STIX Two Math", "Latin Modern Math", "Cambria Math", math;
   font-size: 1.05rem;
   color: var(--cream);
 }
@@ -512,7 +513,7 @@ a {
 
   /* Open water for the ball between the buttons and the equations. */
   .hero-content::after {
-    content: '';
+    content: "";
     flex: 1;
     min-height: 140px;
   }
@@ -637,7 +638,7 @@ a {
 
 /* ---------- Sections ---------- */
 .section {
-  padding: clamp(64px, 9vw, 128px) 0;
+  padding: clamp(64px, 9vw, 108px) 0;
 }
 
 .section-paper {
@@ -647,7 +648,7 @@ a {
 
 .section-head {
   max-width: 760px;
-  margin-bottom: clamp(36px, 5vw, 64px);
+  margin-bottom: clamp(36px, 5vw, 34px);
 }
 
 .section-head > p:not(.eyebrow),
@@ -837,7 +838,7 @@ a {
 }
 
 .case-points li::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0.62em;
@@ -880,7 +881,7 @@ a {
 }
 
 .pipeline li:not(:last-child)::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 31px;
   bottom: -11px;
@@ -1195,7 +1196,7 @@ a {
     row-gap: 12px;
   }
 
-  .marquee-track[aria-hidden='true'] {
+  .marquee-track[aria-hidden="true"] {
     display: none;
   }
 }

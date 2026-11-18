@@ -1,4 +1,4 @@
-import { servicePillars } from '../content'
+import { servicePillars } from "../content";
 
 export default function Services() {
   return (
@@ -6,12 +6,7 @@ export default function Services() {
       <div className="container">
         <header className="section-head">
           <p className="eyebrow">Services</p>
-          <h2>Two practices. One team that does both.</h2>
-          <p>
-            Most AI projects are built by one firm and secured by another, if
-            they are secured at all. We do both, so security is part of the
-            design and not a report that arrives after launch.
-          </p>
+          <h2>Two practices.</h2>
         </header>
 
         <div className="pillars">
@@ -33,5 +28,5 @@ export default function Services() {
         </div>
       </div>
     </section>
-  )
+  );
 }

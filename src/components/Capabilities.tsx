@@ -1,4 +1,4 @@
-import { capabilities } from '../content'
+import { capabilities } from "../content";
 
 export default function Capabilities() {
   return (
@@ -7,16 +7,14 @@ export default function Capabilities() {
         <header className="section-head">
           <p className="eyebrow">Capabilities</p>
           <h2>The building blocks behind every engagement.</h2>
-          <p>
-            The terms get used loosely. Here is what each one means when we
-            build it.
-          </p>
         </header>
 
         <ol className="cap-list">
           {capabilities.map((cap, i) => (
             <li key={cap.name}>
-              <span className="cap-index">{String(i + 1).padStart(2, '0')}</span>
+              <span className="cap-index">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               <h3>
                 {cap.name}
                 <span className="cap-short">{cap.short}</span>
@@ -27,5 +25,5 @@ export default function Capabilities() {
         </ol>
       </div>
     </section>
-  )
+  );
 }
