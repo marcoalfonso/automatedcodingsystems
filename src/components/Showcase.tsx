@@ -59,16 +59,15 @@ export default function Showcase() {
           <div className="case-text">
             <p className="case-tag">AI cyber security · Vulnerability audit</p>
             <h3>
-              A security audit of an AI system, before attackers run their own.
+              A security audit of your system, before attackers run their own.
             </h3>
             <p>
-              We review the whole system: models, prompts, retrieval, tools,
-              data flows and the infrastructure around them. Then we try to
-              break it. Every finding comes with a severity, a reproduction and
-              a fix your engineers can apply.
+              We review the whole system: tools, data flows and the
+              infrastructure around them. Then we try to break it. Every finding
+              comes with a severity, a reproduction and a fix.
             </p>
             <ul className="case-points">
-              <li>Threat model and architecture review with your engineers.</li>
+              <li>Threat model and architecture review.</li>
               <li>
                 Hands-on testing: injection, exfiltration, privilege escalation
                 through tools.

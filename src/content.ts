@@ -195,32 +195,32 @@ export const auditFindings: {
   {
     id: "ACS-02",
     severity: "High",
-    title: "Agent tool token grants write access beyond its task",
-    category: "LLM06 Excessive Agency",
+    title: "Admin API reachable without authentication on a staging host",
+    category: "A01 Broken Access Control",
   },
   {
     id: "ACS-03",
     severity: "High",
-    title: "Customer PII stored in plain text prompt traces",
-    category: "LLM02 Sensitive Information Disclosure",
+    title: "Agent tool token grants write access beyond its task",
+    category: "LLM06 Excessive Agency",
   },
   {
     id: "ACS-04",
     severity: "Medium",
-    title: "Model output rendered as HTML without sanitisation",
-    category: "LLM05 Improper Output Handling",
+    title: "Customer PII stored in plain text prompt traces",
+    category: "LLM02 Sensitive Information Disclosure",
   },
   {
     id: "ACS-05",
     severity: "Medium",
-    title: "No per-user rate or spend limit on the chat endpoint",
-    category: "LLM10 Unbounded Consumption",
+    title: "Dependency with a published CVE still in the production build",
+    category: "A06 Vulnerable and Outdated Components",
   },
   {
     id: "ACS-06",
     severity: "Low",
-    title: "System prompt recoverable through crafted queries",
-    category: "LLM07 System Prompt Leakage",
+    title: "Session cookie missing Secure and HttpOnly flags",
+    category: "A05 Security Misconfiguration",
   },
 ];
 
@@ -228,17 +228,16 @@ export const processSteps = [
   {
     title: "Understand",
     detail:
-      "We map the workflow, the data and the risks with the people who do the work. You get a written plan with a fixed scope.",
+      "We map the workflow, the data and the risks with the people who do the work.",
   },
   {
     title: "Ship a thin slice",
     detail:
-      "A working version on real data within weeks, with evals in place so quality is measured and not assumed.",
+      "A working version on real data, with evals in place so quality is measured.",
   },
   {
     title: "Harden and hand over",
-    detail:
-      "Security review, monitoring and documentation. Your team runs it, and we stay on call while they settle in.",
+    detail: "Security review and monitoring.",
   },
 ];
 
