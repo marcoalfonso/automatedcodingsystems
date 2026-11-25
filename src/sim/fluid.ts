@@ -39,9 +39,9 @@ export interface FluidOptions {
   trackDye?: boolean // advect the dye field (default true)
 }
 
-const PRESSURE_ITERATIONS = 24
+const PRESSURE_ITERATIONS = 16
 const SOR = 1.7 // over-relaxation factor for the pressure solve
-const VISCOSITY_ITERATIONS = 4
+const VISCOSITY_ITERATIONS = 1 // viscosity is small enough that one sweep converges
 const CONFINEMENT = 0.1
 const DYE_DECAY = 0.9993
 const MAX_SPEED = 3
