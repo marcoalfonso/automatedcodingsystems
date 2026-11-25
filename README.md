@@ -18,7 +18,7 @@ npm run preview  # serve the production build locally
 
 | Path | What |
 | --- | --- |
-| `src/content.ts` | All copy: services, capabilities, showcases, clients, contact email |
+| `src/content.ts` | All copy: services, capabilities, showcases, clients, contact form options |
 | `src/components/` | One component per page section |
 | `src/components/RippleLogo.tsx` | Pixelated ACS footer logo with the water ripple (canvas) |
 | `src/index.css` | Design tokens and all styles |
@@ -26,11 +26,14 @@ npm run preview  # serve the production build locally
 
 ## Contact form
 
-The form has no backend yet. By default it opens the visitor's mail client with the
-message prefilled, addressed to `CONTACT_EMAIL` in `src/content.ts`.
+The contact form is the only way to get in touch; the site lists no email address.
+It reads as one sentence with blanks ("I need … I'm …, … at … in …"). "What you
+need", name and a valid work email are required.
 
-To send submissions to an API instead, set `VITE_CONTACT_ENDPOINT` at build time
-(see `.env.example`). The form then POSTs JSON: `{ name, email, company, interest, message }`.
+It needs a backend: set `VITE_CONTACT_ENDPOINT` at build time (see `.env.example`).
+The form POSTs JSON:
+`{ need, name, title, company, country, email, phone, source }`, and treats any
+2xx response as sent. Without the endpoint the form shows an error instead of sending.
 
 ## Client logos
 

@@ -1,5 +1,5 @@
 import RippleLogo from './RippleLogo'
-import { CONTACT_EMAIL, navLinks } from '../content'
+import { navLinks } from '../content'
 
 export default function Footer() {
   return (
@@ -14,7 +14,6 @@ export default function Footer() {
                 {link.label}
               </a>
             ))}
-            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
           </nav>
         </div>
       </div>

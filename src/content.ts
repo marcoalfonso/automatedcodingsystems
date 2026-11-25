@@ -1,7 +1,5 @@
 // All page copy lives here so it can be edited without touching components.
 
-export const CONTACT_EMAIL = "hello@automatedcodingsystems.com";
-
 export const navLinks = [
   { href: "#services", label: "Services" },
   { href: "#capabilities", label: "Capabilities" },
@@ -241,9 +239,12 @@ export const processSteps = [
   },
 ];
 
-export const interests = [
-  "AI implementation",
-  "AI cyber security",
-  "Both",
-  "Not sure yet",
+// Options for "I heard about Automated Coding Systems from …" in the contact form.
+export const referralSources = [
+  "a colleague",
+  "LinkedIn",
+  "search or an AI assistant",
+  "a previous project",
+  "a talk or event",
+  "somewhere else",
 ];

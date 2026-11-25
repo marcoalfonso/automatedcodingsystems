@@ -657,8 +657,7 @@ a {
   margin-bottom: clamp(36px, 5vw, 34px);
 }
 
-.section-head > p:not(.eyebrow),
-.contact-grid header > p:not(.eyebrow) {
+.section-head > p:not(.eyebrow) {
   max-width: 36em;
   margin-top: 20px;
   font-size: 1.1rem;
@@ -1046,72 +1045,137 @@ a {
 }
 
 /* ---------- Contact ---------- */
-.contact-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
-  gap: clamp(32px, 6vw, 88px);
-  align-items: start;
+/* One sentence with blanks in it, rather than a grid of labelled boxes. */
+.contact {
+  background: #0e1d3a;
+  color: var(--cream);
+  border-top: 1px solid #22355a;
 }
 
-.contact-direct {
-  font-size: 1rem !important;
+.contact .eyebrow {
+  color: #9db7e6;
+  margin-bottom: 28px;
 }
 
-.form {
-  display: grid;
-  gap: 18px;
-  padding: clamp(20px, 3.2vw, 36px);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: #fff;
+.sentence {
+  max-width: 1100px;
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  color: var(--cream);
 }
 
-.field-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+.sentence-done {
+  max-width: 30em;
 }
 
-.field {
-  display: grid;
-  gap: 7px;
+.blank {
+  --pad: 0.4rem;
+  display: inline-grid;
+  grid-template-columns: minmax(3ch, max-content);
+  max-width: 100%;
+  vertical-align: baseline;
 }
 
-.field > span {
-  font-size: 0.88rem;
-  font-weight: 600;
+/* A hidden copy of the value (or placeholder) sets the blank's width. */
+.blank::after,
+.blank > input,
+.blank > select {
+  grid-area: 1 / 1;
+  padding-inline: 0 var(--pad);
 }
 
-.field em {
-  font-style: normal;
-  font-weight: 400;
-  color: var(--muted);
+.blank::after {
+  content: attr(data-value);
+  white-space: pre;
+  visibility: hidden;
+  overflow: hidden;
+  line-height: 1.3;
+  border-bottom: 1px solid transparent;
 }
 
-.field input,
-.field select,
-.field textarea {
+.blank > input,
+.blank > select {
   width: 100%;
-  min-height: 46px;
-  padding: 10px 12px;
-  border: 1px solid #bdb5a6;
-  border-radius: 6px;
-  background: var(--cream);
-  color: var(--ink);
+  min-width: 0;
+  margin: 0;
+  padding-block: 0;
+  border: 0;
+  border-bottom: 1px solid #4a5f86;
+  border-radius: 0;
+  background: transparent;
+  color: var(--cream);
   font: inherit;
-  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: inherit;
 }
 
-.field textarea {
-  resize: vertical;
+.blank > input::placeholder {
+  color: #7186ab;
+  opacity: 1;
 }
 
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  outline: 2px solid var(--blue-link);
-  outline-offset: 1px;
-  border-color: var(--blue-link);
+.blank > input:focus,
+.blank > select:focus {
+  outline: none;
+  border-bottom-color: #9db7e6;
+}
+
+.blank > input:focus-visible,
+.blank > select:focus-visible {
+  border-bottom-width: 2px;
+}
+
+.blank > input[aria-invalid] {
+  border-bottom-color: #e08a74;
+}
+
+/* The select stays invisible and clickable; ::after shows its current text and
+   ::before draws the chevron. */
+.blank-select {
+  --arrow: 0.55em;
+  --gap: 0.3em;
+}
+
+.blank-select::after {
+  visibility: visible;
+  pointer-events: none;
+  align-self: baseline;
+  padding-right: calc(var(--pad) + var(--gap) + var(--arrow));
+}
+
+.blank-select[data-empty]::after {
+  color: #7186ab;
+}
+
+.blank-select > select {
+  /* Size to the selected text (via ::after), not to the longest option. */
+  width: 0;
+  min-width: 100%;
+  appearance: none;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+  padding-right: calc(var(--pad) + var(--gap) + var(--arrow));
+}
+
+.blank-select > select option {
+  color: var(--ink);
+  -webkit-text-fill-color: currentColor;
+  font-size: 16px;
+}
+
+.blank-select::before {
+  content: "";
+  grid-area: 1 / 1;
+  place-self: center end;
+  width: var(--arrow);
+  height: var(--arrow);
+  margin-right: var(--pad);
+  background: #9db7e6;
+  pointer-events: none;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.75 6 8.25 9.5 4.75' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
 }
 
 .field-trap {
@@ -1119,29 +1183,26 @@ a {
   left: -9999px;
 }
 
-.form-foot {
+.sentence-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  gap: 16px 20px;
+  margin-top: 36px;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+
+.sentence-foot .btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
 }
 
 .form-status {
-  flex: 1 1 220px;
-  font-size: 0.92rem;
-  color: var(--ink-soft);
-}
-
-@media (max-width: 900px) {
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 560px) {
-  .field-row {
-    grid-template-columns: 1fr;
-  }
+  flex: 1 1 260px;
+  font-size: 0.95rem;
+  color: #b8c6de;
 }
 
 /* ---------- Footer ---------- */
