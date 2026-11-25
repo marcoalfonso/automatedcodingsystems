@@ -145,6 +145,19 @@ export class FluidSim {
     this.ball.held = false
   }
 
+  // Move the ball's resting point (fractions of the grid), for example after the
+  // page layout settles. The ball jumps there unless someone is holding it.
+  setHome(fx: number, fy: number) {
+    const b = this.ball
+    b.homeX = 1 + fx * (this.cols - 1)
+    b.homeY = 1 + fy * (this.rows - 1)
+    if (b.held) return
+    b.x = b.homeX
+    b.y = b.homeY
+    b.vx = 0
+    b.vy = 0
+  }
+
   isOnBall(x: number, y: number) {
     const b = this.ball
     return Math.hypot(x - b.x, y - b.y) <= b.r * 1.4

@@ -31,6 +31,7 @@ export type EngineMessage =
   | { type: 'grab'; x: number; y: number }
   | { type: 'drag'; x: number; y: number }
   | { type: 'release' }
+  | { type: 'home'; x: number; y: number } // fractions of the canvas
   | { type: 'stir'; x: number; y: number; dx: number; dy: number }
 
 export interface EngineEvents {
@@ -114,6 +115,11 @@ export class FluidEngine {
         break
       case 'release':
         sim?.release()
+        break
+      case 'home':
+        sim?.setHome(message.x, message.y)
+        this.sendBall()
+        if (!this.running) this.draw()
         break
       case 'stir':
         sim?.stir(message.x, message.y, message.dx, message.dy)
