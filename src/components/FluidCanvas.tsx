@@ -30,6 +30,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
     let width = 0
     let height = 0
     let labelDpr = 0
+    let home = { x: 0, y: 0 }
     const pointer = { x: 0, y: 0, tracking: false, dragging: false }
 
     function receive(reply: Reply) {
@@ -61,7 +62,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
       if (!width || !height) return
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
       const narrow = width < 820
-      const home = ballHome(narrow)
+      home = ballHome(narrow)
       send({ type: 'build', setup: { width, height, dpr, narrow, homeX: home.x, homeY: home.y, reduceMotion } })
       if (dpr !== labelDpr) {
         labelDpr = dpr
@@ -93,8 +94,9 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
     // text and the equations strip on narrow ones. Returns fractions of the canvas.
     function ballHome(narrow: boolean) {
       const box = canvas.getBoundingClientRect()
+      if (!box.width || !box.height) return home
       let textRight = box.left + box.width * 0.5
-      let textBottom = box.top + box.height * 0.5
+      let textBottom = box.top
       host!.querySelectorAll('[data-fluid-text]').forEach((el) => {
         const r = el.getBoundingClientRect()
         textRight = Math.max(textRight, r.right)
@@ -104,6 +106,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
       const right = textRight - box.left
       const bottom = textBottom - box.top
       const floorY = floor - box.top
+      // Halfway between the buttons and the equations.
       if (narrow) return { x: 0.3, y: (bottom + floorY) / 2 / box.height }
       // Well clear of the text: at least 70% across, or 45% of the way into the open water.
       const x = Math.max(0.7, (right + (box.width - right) * 0.45) / box.width)
@@ -173,6 +176,19 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
     })
     resizeObserver.observe(canvas)
 
+    // The text and equations can change size after the first build (web fonts
+    // arriving, MathML rendering), so re-measure the ball's home when they do.
+    function updateHome() {
+      if (!width || !height || !canvas.isConnected) return
+      const next = ballHome(width < 820)
+      if (Math.abs(next.x - home.x) * width < 2 && Math.abs(next.y - home.y) * height < 2) return
+      home = next
+      send({ type: 'home', x: home.x, y: home.y })
+    }
+    const layoutObserver = new ResizeObserver(updateHome)
+    host.querySelectorAll('[data-fluid-text], [data-fluid-floor]').forEach((el) => layoutObserver.observe(el))
+    void document.fonts.ready.then(updateHome)
+
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       onScreen = entry.isIntersecting
       updateRunning()
@@ -192,6 +208,7 @@ export default function FluidCanvas({ hostRef, statsRef }: Props) {
     return () => {
       dispose()
       resizeObserver.disconnect()
+      layoutObserver.disconnect()
       intersectionObserver.disconnect()
       host.removeEventListener('pointerdown', onPointerDown)
       host.removeEventListener('pointermove', onPointerMove)
